@@ -51,3 +51,12 @@ $autenticador->tentaLogin($umDiretor, '1234') . PHP_EOL;
 $autenticador->tentaLogin($patricia, 'asdf') . PHP_EOL;
 
 echo '----' . PHP_EOL;
+
+echo $endereco . PHP_EOL;
+echo $outroEndereco . PHP_EOL;
+echo $endereco->rua . PHP_EOL;
+echo $endereco->bairro . PHP_EOL;
+
+//$endereco->__set('rua', 'Nova Rua');
+$endereco->rua = 'Nova Rua';
+echo $endereco->rua;
