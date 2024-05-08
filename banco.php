@@ -4,8 +4,9 @@ require_once 'autoload.php';
 
 use Alura\Banco\Modelo\Conta\{Conta, ContaCorrente, ContaPoupanca, Titular};
 use Alura\Banco\Modelo\{Cpf, Endereco};
-use Alura\Banco\Modelo\Funcionario\{Funcionario, Gerente, Diretor, Desenvolvedor};
-use Alura\Banco\Service\ControladorDeBonificacoes;
+use Alura\Banco\Modelo\Funcionario\{Gerente, Diretor, Desenvolvedor, EditorVideo};
+use Alura\Banco\Service\{ControladorDeBonificacoes, Autenticador};
+
 
 $endereco = new Endereco('São Paulo', 'Bela Vista', 'Rua da Consolação', '12');
 $vinicius = new Titular(new CPF('123.456.789-10'), 'Vinicius Dias', $endereco);
@@ -26,10 +27,11 @@ $outra = new ContaCorrente(new Titular(new CPF('123.654.789-01'), 'Abcdefg', $ou
 unset($segundaConta);
 echo Conta::recuperaNumeroDeContas() . PHP_EOL;
 
-$umaGerente = new Gerente(new Cpf('123.456.789-13'), 'Joana', 'Gerente', 2000);
-$umDiretor = new Diretor(new Cpf('123.456.789-13'), 'Lucas', 'Diretor', 13000);
-$umDesenvolvedor = new Desenvolvedor(new Cpf('123.456.789-13'), 'Lucas', 'Desenvolvedor', 3000);
+$umaGerente = new Gerente(new Cpf('123.456.789-13'), 'Joana', 2000);
+$umDiretor = new Diretor(new Cpf('123.456.789-13'), 'Lucas', 13000);
+$umDesenvolvedor = new Desenvolvedor(new Cpf('123.456.789-13'), 'Lucas', 3000);
 $umDesenvolvedor->sobeDeNivel();
+$umEditor = new EditorVideo(new Cpf('123.456.789-13'), 'João', 2500);
 
 echo $umDesenvolvedor->recuperaSalario() . PHP_EOL;
 
@@ -37,6 +39,15 @@ $controlador = new ControladorDeBonificacoes();
 $controlador->adicionaBonificacaoDe($umaGerente);
 $controlador->adicionaBonificacaoDe($umDiretor);
 $controlador->adicionaBonificacaoDe($umDesenvolvedor);
+$controlador->adicionaBonificacaoDe($umEditor);
 
 echo $controlador->recuperaTotal() . PHP_EOL;
 
+echo '----' . PHP_EOL;
+
+$autenticador = new Autenticador();
+$autenticador->tentaLogin($umDiretor, '4321') . PHP_EOL;
+$autenticador->tentaLogin($umDiretor, '1234') . PHP_EOL;
+$autenticador->tentaLogin($patricia, 'asdf') . PHP_EOL;
+
+echo '----' . PHP_EOL;
